@@ -1,3 +1,30 @@
+--CREATE TABLE--
+
+CREATE TABLE FUNCIONARIO (
+ID_FUNCIONARIO INTEGER PRIMARY KEY,
+NOME VARCHAR2(50),
+SALARIO FLOAT
+);
+
+--Inserção de dados Aleatório --
+
+DECLARE
+v_id NUMBER;
+v_nome VARCHAR2(50);
+v_salario FLOAT;
+BEGIN
+FOR i IN 1..50 LOOP
+v_id := i;
+v_nome := 'Nome' || TO_CHAR(i);
+v_salario := DBMS_RANDOM.VALUE(40000, 80000);
+
+    INSERT INTO FUNCIONARIO (ID_FUNCIONARIO, NOME, SALARIO)
+    VALUES (v_id, v_nome, v_salario);
+END LOOP;
+END;
+/
+
+-- Código ---
 DECLARE
   sal1 funcionario.salario%TYPE;  
   soma funcionario.salario%TYPE := 0; -- Inicialize a variável de soma
