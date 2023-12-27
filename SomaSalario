@@ -1,0 +1,25 @@
+DECLARE
+  sal1 funcionario.salario%TYPE;  
+  soma funcionario.salario%TYPE := 0; -- Inicialize a variável de soma
+
+  CURSOR c_soma IS
+    SELECT salario
+    FROM funcionario
+    WHERE NOME IN ('Nome3', 'Nome4'); -- Use IN para permitir múltiplos resultados
+
+BEGIN
+
+  OPEN c_soma;
+     LOOP
+        FETCH c_soma INTO sal1;
+        EXIT WHEN c_soma%NOTFOUND;
+
+        soma := soma + NVL(sal1, 0); -- Use NVL para tratar valores nulos
+
+    END LOOP;
+  CLOSE c_soma;
+
+  -- Exibir o resultado
+  DBMS_OUTPUT.PUT_LINE('A soma dos salários é: ' || soma);
+END;
+/
