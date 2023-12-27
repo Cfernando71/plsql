@@ -31,3 +31,45 @@ BEGIN
     END LOOP;
 END;
 /
+
+-- Código PL/SQL ---
+
+DECLARE
+    nome funcionario.nome%type;
+    salario funcionario.salario%type;
+    dif funcionario.salario%type;
+    salario_aumento funcionario.salario%type;
+
+    cursor c_func is
+        select nome, salario from funcionario;
+
+
+BEGIN
+    dif := 0;
+
+    open c_func;
+
+        loop
+            fetch c_func into nome, salario;
+            exit when c_func%notfound;
+            
+            if (salario <=5000) then
+                salario_aumento := salario * 1.15;
+                dif := dif + (salario_aumento - salario);
+
+                else 
+                    if (salario > 5000 and salario <= 10000) then
+                    salario_aumento := salario * 1.10;
+                    dif := dif + (salario_aumento - salario);
+
+                    else 
+                        salario_aumento := salario * 1.05;
+                        dif := dif + (salario_aumento - salario);
+                    end if;
+            end if;
+        end loop;
+    close c_func;
+
+DBMS_OUTPUT.PUT_LINE('O Aumento de despesa com o reajuste de salários: $' || dif);
+END;
+
