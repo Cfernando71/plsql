@@ -1,0 +1,49 @@
+CREATE OR REPLACE PROCEDURE inseriraluno (
+    RA number, 
+    NOME varchar2,
+     N1 number,
+      N2  number, 
+      N3 number,
+       N4 number) IS
+
+    
+    vmedia float(5);
+    vresultado varchar2(9);
+
+BEGIN
+  
+
+vmedia := (GREATEST(N1,N2) + N3 + N4)/3;
+    IF (vmedia < 6) then
+    vresultado := 'Reprovado';
+    ELSE
+    vresultado := 'Aprovado';
+    END IF;
+
+INSERT INTO ALUNO_TTY (RA, NOME, N1, N2, N3, N4, MEDIA, RESULTADO)
+VALUES (RA, NOME, N1, N2, N3, N4, vmedia, vresultado);
+
+DBMS_OUTPUT.PUT_LINE('Registro Inserido na Tabela com Sucesso');
+
+EXCEPTION
+
+WHEN OTHERS THEN 
+
+DBMS_OUTPUT.PUT_LINE('ERRO: ' || SQLERRM);
+
+END inseriraluno;
+
+DECLARE
+  v_ra NUMBER := ROUND(DBMS_RANDOM.VALUE(1,100));
+  v_nome VARCHAR2(50) := 'JOÃO';
+  v_a1 NUMBER := 7.5;
+  v_a2 NUMBER := 9.8;
+  v_a3 NUMBER := 8.75;
+  v_a4 NUMBER := 10;
+BEGIN
+
+  inseriraluno(v_ra, v_nome, v_a1, v_a2, v_a3, v_a4);
+END;
+/
+delete from aluno_tty;
+SELECT * FROM ALUNO_TTY;
